@@ -4,9 +4,9 @@
 #include <vector>
 #include <variant>
 
-#if __has_include("Arduino.h")
-#include "Arduino.h"
-#endif
+// #if __has_include("Arduino.h")
+// #include "Arduino.h"
+// #endif
 
 // Define the enum items dynamically so the count of items can be determined
 // at compile time.
