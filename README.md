@@ -31,6 +31,8 @@ custom_nanopb_options =
 
 For a complete example check out the file `examples/testing/platformio.ini`.
 
+**NOTE:** You might need to switch to C++20 to use some features.
+
 # SuntechParser
 
 SuntechParser is a parser for the Suntech protocol. It can be used to parse raw data from a serial port, byte by byte.
@@ -42,9 +44,9 @@ SuntechParser is a parser for the Suntech protocol. It can be used to parse raw 
 
 SuntechParser parser;
 
-int setup() {}
+void setup() {}
 
-int loop() {
+void loop() {
   while (Serial.available()) {
     const auto receivedMessage = parser.processByte(Serial.read());
     if (receivedMessage.valid) {
@@ -74,9 +76,9 @@ The returned values are:
 
 SuntechParser parser;
 
-int setup() {}
+void setup() {}
 
-int loop() {
+void loop() {
   while (Serial.available()) {
     const auto receivedMessage = parser.processByte(Serial.read());
     if (receivedMessage.valid) {
@@ -96,4 +98,90 @@ int loop() {
 
 # MessageEncoder
 
-**TODO!**
+MessageEncoder converts MedIO events into its codified version, returning a string.
+
+## Usage: quick method
+
+```C++
+#include <medio-message-encoder.hpp>
+
+void setup() {}
+
+void loop() {
+  // Create a ModeChangeEvent
+  ModeChangeEvent modeChangeEvent;
+  modeChangeEvent.kind = PulseEventKind::EV_INT;
+
+  // Wrap it in a SyncEvent
+  SyncEvent syncEvent;
+  syncEvent.payload = modeChangeEvent;
+
+  // Convert to Protobuf string
+  std::string protobufStr = MedIOMessageEncoder::SyncEventToProtobuf(
+    /* the version of our board */
+    42,
+    /* the current boot id, set at random when booting up */
+    /* this is also used by the server to aggregate sessions, so keep it the same if the board did not restart! */
+    23,
+    /* the event to encode */
+    syncEvent
+  );
+
+  Serial.print("I've encoded a ModeChangeEvent, and here it is: ");
+  Serial.println(protobufStr);
+
+  delay(5000);
+}
+```
+
+## Usage: advanced method with callbacks
+
+```C++
+#include <medio-message-encoder.hpp>
+
+void setup() {}
+
+void loop() {
+  // Create a new encoder
+  MedIOMessageEncoder encoder(__BOARD_VERSION_U32__, state.bootId, encode_counters, encode_stored_counters, encode_stored_pulses);
+
+  // Create a ModeChangeEvent
+  ModeChangeEvent modeChangeEvent;
+  modeChangeEvent.kind = PulseEventKind::EV_INT;
+
+  // Wrap it in a SyncEvent
+  SyncEvent syncEvent;
+  syncEvent.payload = modeChangeEvent;
+
+  // Convert to Protobuf string
+  std::string protobufStr = encoder.SyncEventToProtobuf(
+    /* the version of our board */
+    42,
+    /* the current boot id, set at random when booting up */
+    /* this is also used by the server to aggregate sessions, so keep it the same if the board did not restart! */
+    23,
+    /* the event to encode */
+    syncEvent
+  );
+
+  Serial.print("I've encoded a ModeChangeEvent, and here it is: ");
+  Serial.println(protobufStr);
+
+  delay(5000);
+}
+```
+
+### How to send it to Suntech?
+
+After encoding a message as a string, send it directly to the Suntech device and append a "\r\n" at the end.
+
+Most Suntech devices can store between 100-500 messages offline and send them when a connection is available.
+
+### Do I need to always send a SyncEvent?
+
+Yes. SyncEvent is the only kind of event the server can receive. It embeds metadata (as stored pulses, or board ID)
+and sends the inner event.
+
+### Where can I see the other events?
+
+Take a look at the protobuf file, or at the events declaration (`medio-events.hpp`).
