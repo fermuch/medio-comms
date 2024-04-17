@@ -13,106 +13,6 @@
 // max protobuf message size
 #define MAX_PB_MESSAGE_SIZE 450
 
-// [[nodiscard]]
-// static proto_v1_medio_PulseEventKind enumKindToProto(PulseEventKind kind)
-// {
-//   switch (kind) {
-//     case PulseEventKind::EV_UNKNOWN: return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_UNSPECIFIED;
-//     case PulseEventKind::EV_HOME: return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_HOME;
-//     case PulseEventKind::EV_9D: return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_9D;
-//     case PulseEventKind::EV_INT: return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_INT;
-//     case PulseEventKind::EV_2D: return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_2D;
-//     case PulseEventKind::EV_PEN: return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_PEN;
-//     default:
-//     //   ULOG_ERROR("Unknown pulse event kind: {}", std::underlying_type_t<PulseEventKind>(kind));
-//       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_UNSPECIFIED;
-//   }
-// }
-
-static bool encode_counters(pb_ostream_t *stream, const pb_field_t *field, void *const *arg)
-{
-  UNUSED(stream);
-  UNUSED(field);
-  UNUSED(arg);
-
-//   proto_v1_medio_CounterValue counters[PulseEventKindCount()] = {};
-//   for (std::size_t i = 0; i < PulseEventKindCount(); ++i)
-//   {
-//     counters[i].counter = enumKindToProto(static_cast<PulseEventKind>(i));
-//     counters[i].count = state.counters.get(static_cast<PulseEventKind>(i));
-
-//     if (counters[i].count > 0) {
-//       if (!pb_encode_tag_for_field(stream, field))
-//       {
-//         return false;
-//       }
-
-//       if (!pb_encode_submessage(stream, proto_v1_medio_CounterValue_fields, &counters[i]))
-//       {
-//         return false;
-//       }
-//     }
-//   }
-
-  return true;
-}
-
-static bool encode_stored_counters(pb_ostream_t *stream, const pb_field_t *field, void *const *arg)
-{
-  UNUSED(stream);
-  UNUSED(field);
-  UNUSED(arg);
-
-//   proto_v1_medio_CounterValue counters[PulseEventKindCount()] = {};
-//   for (std::size_t i = 0; i < PulseEventKindCount(); ++i)
-//   {
-//     counters[i].counter = enumKindToProto(static_cast<PulseEventKind>(i));
-//     counters[i].count = state.storedCounters.get(static_cast<PulseEventKind>(i));
-
-//     if (counters[i].count > 0) {
-//       if (!pb_encode_tag_for_field(stream, field))
-//       {
-//         return false;
-//       }
-
-//       if (!pb_encode_submessage(stream, proto_v1_medio_CounterValue_fields, &counters[i]))
-//       {
-//         return false;
-//       }
-//     }
-//   }
-
-  return true;
-}
-
-static bool encode_stored_pulses(pb_ostream_t *stream, const pb_field_t *field, void *const *arg)
-{
-  UNUSED(stream);
-  UNUSED(field);
-  UNUSED(arg);
-
-//   proto_v1_medio_CounterValue counters[PulseEventKindCount()] = {};
-//   for (std::size_t i = 0; i < PulseEventKindCount(); ++i)
-//   {
-//     counters[i].counter = enumKindToProto(static_cast<PulseEventKind>(i));
-//     counters[i].count = state.storedPulses.get(static_cast<PulseEventKind>(i));
-
-//     if (counters[i].count > 0) {
-//       if (!pb_encode_tag_for_field(stream, field))
-//       {
-//         return false;
-//       }
-
-//       if (!pb_encode_submessage(stream, proto_v1_medio_CounterValue_fields, &counters[i]))
-//       {
-//         return false;
-//       }
-//     }
-//   }
-
-  return true;
-}
-
 static bool encode_scans(pb_ostream_t *stream, const pb_field_t *field, void *const *arg)
 {
   static constexpr size_t maxScanCount = sizeof(WifiScanEvent::scans) / sizeof(WifiScanSingle);
@@ -154,14 +54,21 @@ static bool encode_scans(pb_ostream_t *stream, const pb_field_t *field, void *co
   return true;
 }
 
+typedef bool (*DataEncoder)(pb_ostream_t *stream, const pb_field_t *field, void * const *arg);
+
 class MedIOMessageEncoder
 {
 public:
-  MedIOMessageEncoder(uint32_t board_version, uint32_t boot_id)
-  {
-    message_.counters.funcs.encode = &encode_counters;
-    message_.stored_counters.funcs.encode = &encode_stored_counters;
-    message_.stored_pulses.funcs.encode = &encode_stored_pulses;
+  MedIOMessageEncoder(
+    uint32_t board_version,
+    uint32_t boot_id,
+    DataEncoder counters_encoder = nullptr,
+    DataEncoder stored_counters_encoder = nullptr,
+    DataEncoder stored_pulses_encoder = nullptr
+  ) {
+    message_.counters.funcs.encode = counters_encoder;
+    message_.stored_counters.funcs.encode = stored_counters_encoder;
+    message_.stored_pulses.funcs.encode = stored_pulses_encoder;
     message_.board_version = board_version;
     message_.boot_id = boot_id;
     message_.boot_id_2 = boot_id;
