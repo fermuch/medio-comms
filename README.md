@@ -2,6 +2,24 @@
 
 Library to handle common communications with MedIO systems.
 
+# Table of content
+
+-   [MedIO Communications](#medio-communications)
+-   [Setup](#setup)
+    -   [Set up the ProtoBuf file](#set-up-the-protobuf-file)
+-   [SuntechParser](#suntechparser)
+    -   [Usage](#usage)
+    -   [Read IO](#read-io)
+-   [MessageEncoder](#messageencoder)
+    -   [Usage: quick method](#usage-quick-method)
+    -   [Usage: advanced method with
+        callbacks](#usage-advanced-method-with-callbacks)
+        -   [How to send it to Suntech?](#how-to-send-it-to-suntech)
+        -   [Do I need to always send a
+            SyncEvent?](#do-i-need-to-always-send-a-syncevent)
+        -   [Where can I see the other
+            events?](#where-can-i-see-the-other-events)
+
 # Setup
 
 Add the library to your `platformio.ini` lib_deps:
