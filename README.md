@@ -1,3 +1,5 @@
+# MedIO Communications
+
 Library to handle common communications with MedIO systems.
 
 # Setup
@@ -71,3 +73,7 @@ int loop() {
   }
 }
 ```
+
+# MessageEncoder
+
+**TODO!**
