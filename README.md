@@ -1,6 +1,8 @@
 # MedIO Communications
 
-Library to handle common communications with MedIO systems.
+Library to handle common communications with MedIO systems in a PlatformIO environment.
+
+Supports both native (UNIX) and ESP32 platforms.
 
 # Table of content
 
