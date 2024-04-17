@@ -14,6 +14,22 @@ lib_deps =
 
 **NOTE:** it is important to also add Nanopb, as it is used to compile the protobuf messages.
 
+It is also needed to set up compilation of the ProtoBuf file.
+
+First of all, copy the file `proto/v1/messages_medio.proto` into your project. Remember to update it when updating
+this dependency!
+
+Add the following to your `platformio.ini`:
+
+```ini
+custom_nanopb_protos =
+	+<proto/v1/messages_medio.proto>
+custom_nanopb_options =
+	--error-on-unmatched
+```
+
+For a complete example check out the file `examples/testing/platformio.ini`.
+
 # SuntechParser
 
 SuntechParser is a parser for the Suntech protocol. It can be used to parse raw data from a serial port, byte by byte.
