@@ -14,10 +14,11 @@ lib_deps =
 
 **NOTE:** it is important to also add Nanopb, as it is used to compile the protobuf messages.
 
-It is also needed to set up compilation of the ProtoBuf file.
+### Set up the ProtoBuf file
 
-First of all, copy the file `proto/v1/messages_medio.proto` into your project. Remember to update it when updating
-this dependency!
+First of all, copy the file `proto/v1/messages_medio.proto` into your project.
+
+**NOTE:** Remember to update the file when updating this library!
 
 Add the following to your `platformio.ini`:
 
@@ -83,6 +84,9 @@ int loop() {
       // We are reading IO 0, which is IGNITION
       Serial1.println(parser.getIO(receivedMessage, 0));
     }
+
+    // Note: you can request an STT to the Suntech device sending it the following message:
+    // Serial.write("SttReq\r\n");
 
     // do not forget to yield to not lock on large messages!
     yield();
