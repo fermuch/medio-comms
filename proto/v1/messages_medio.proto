@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+option java_package = "proto.v1";
+option java_outer_classname = "MessagesProto";
+option java_multiple_files = true;
+option go_package = "locali/medio";
+
+package proto.v1.medio;
+
+import "nanopb.proto";
+
+// A pulse has happened
+message PulseEvent {
+  // The kind of event
+  PulseEventKind kind = 1;
+  // The duration in ms of the event,
+  // from first trigger to window closing.
+  int32 duration = 2;
+  // Total quantity of pulses the event
+  // registered.
+  int64 measurements = 3;
+}
+
+// The mode has changed
+message ModeChangeEvent {
+  // The new mode
+  PulseEventKind mode = 1;
+}
+
+// The current value of a counter
+message CounterValue {
+  // The ID of the counter
+  PulseEventKind counter = 1;
+  // The current value
+  int64 count = 2;
+}
+
+// Represents a WiFi Scan of a single AP
+message WifiScan {
+  // The BSSID of the seen AP
+  bytes bssid = 1 [(nanopb).max_size = 6];
+  // Signal strength of the AP
+  int32 signal = 2;
+}
+
+// Represents a WiFi Scan of multiple APs
+message WifiScanList {
+  // The list of scans (up to 5 scans)
+  repeated WifiScan scans = 1;
+}
+
+// A ping to sync counters and state periodically
+message PingSync {
+  bool is_ping = 1;
+}
+
+// An input has changed from On to Off or vice-versa
+message OnOffChange {
+  // What input triggered this change
+  uint32 input = 1;
+  // Is the input enabled or not? (Since we trigger on both!)
+  bool enabled = 2;
+  // How much time has elapsed since the last change?
+  uint32 elapsed_time_secs = 3;
+}
+
+// A message meant to be sent to the server. It encompases all synceable messages.
+message SyncMessage {
+  // The payload of the message itself
+  oneof msg {
+    // A pulse event
+    PulseEvent pulse_event = 1;
+    // A change of the current mode
+    ModeChangeEvent mode_change_event = 2;
+    // A wifi scan was triggered and we have the data now
+    WifiScanList wifi_scan_event = 3;
+    // A ping was triggered and we have the data now
+    PingSync ping_sync_event = 4;
+    // A change has been triggered
+    OnOffChange on_off_change_event = 5;
+  };
+
+  // Boot id
+  int32 boot_id_2 = 50;
+
+  // Current state of all counters on the device.
+  repeated CounterValue counters = 100;
+
+  // Stored state of all counters on the device.
+  repeated CounterValue stored_counters = 110;
+
+  // Stored state of all pulses on the device.
+  repeated CounterValue stored_pulses = 120;
+  
+  // Boot id
+  int32 boot_id_3 = 150;
+
+  // Boot id
+  int32 boot_id = 200;
+
+  // Board version
+  int32 board_version = 250;
+}
+
+// What kind of event this pulse is
+enum PulseEventKind {
+  // Unspecified event
+  PULSE_EVENT_KIND_UNSPECIFIED = 0;
+  // Home
+  PULSE_EVENT_KIND_HOME = 2;
+  // 9D
+  PULSE_EVENT_KIND_9D = 3;
+  // Intimate
+  PULSE_EVENT_KIND_INT = 4;
+  // 2D
+  PULSE_EVENT_KIND_2D = 5;
+  // Pen
+  PULSE_EVENT_KIND_PEN = 6;
+}

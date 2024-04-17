@@ -1,0 +1,23 @@
+{
+  "name": "MedIO Communications",
+  "version": "0.1.0",
+  "description": "Communication modules for MedIO boards",
+  "keywords": "medio",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/fermuch/medio-comms.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Fernando Mumbach",
+      "email": "fermuch@ayvu.net",
+      "url": "https://github.com/fermuch"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "frameworks": "*",
+  "platforms": "*"
+}
