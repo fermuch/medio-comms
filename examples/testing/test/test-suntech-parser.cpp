@@ -21,7 +21,7 @@ const char* msg = "ST300STT;511704164;45;315;20230921;18:27:48;60929;-25.526483;
 
 TEST_F(SuntechParserTest, parse_valid)
 {
-  MessageParser parser;
+  SuntechParser parser;
   SuntechMessage expectedMsg = {
     .valid = true,
     .kind = "STT",
@@ -80,7 +80,7 @@ TEST_F(SuntechParserTest, parse_valid)
 
 TEST_F(SuntechParserTest, get_valid_IO)
 {
-  MessageParser parser;
+  SuntechParser parser;
 
   for (size_t i = 0; i < strlen(msg); ++i)
   {

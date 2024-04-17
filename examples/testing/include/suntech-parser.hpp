@@ -37,7 +37,7 @@ static inline void trim(std::string &s)
   ltrim(s);
 }
 
-class MessageParser
+class SuntechParser
 {
 private:
   static constexpr size_t BUFFER_SIZE = 512; // XXX: Might need to be adjusted in the future
