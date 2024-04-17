@@ -1,5 +1,6 @@
 {
-  "name": "MedIO Communications",
+  "$schema": "https://raw.githubusercontent.com/platformio/platformio-core/develop/platformio/assets/schema/library.json",
+  "name": "MedIO-Comms",
   "version": "0.1.0",
   "description": "Communication modules for MedIO boards",
   "keywords": "medio",
@@ -21,5 +22,13 @@
     "nanopb/Nanopb": "~0.4.8"
   },
   "frameworks": "*",
-  "platforms": "*"
+  "platforms": "*",
+  "build": {
+    "unflags": [
+      "-std=gnu++11", "-std=c++11"
+    ],
+    "flags": [
+      "-std=gnu++20"
+    ]
+  }
 }
