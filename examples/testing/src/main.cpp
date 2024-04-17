@@ -21,4 +21,7 @@ void setup() {
   exit(RUN_ALL_TESTS());
 }
 void loop() {}
+#else
+void setup() {}
+void loop() {}
 #endif // PIO_UNIT_TESTING
