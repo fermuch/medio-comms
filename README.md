@@ -199,7 +199,7 @@ Most Suntech devices can store between 100-500 messages offline and send them wh
 
 ### Do I need to always send a SyncEvent?
 
-Yes. SyncEvent is the only kind of event the server can receive. It embeds metadata (as stored pulses, or board ID)
+Yes. `SyncEvent` is the only kind of event the server can receive. It embeds metadata (like stored pulses, or board ID)
 and sends the inner event.
 
 ### Where can I see the other events?
