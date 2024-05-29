@@ -116,4 +116,7 @@ enum PulseEventKind {
   PULSE_EVENT_KIND_2D = 5;
   // Pen
   PULSE_EVENT_KIND_PEN = 6;
+
+  // Specific for VLY
+  PULSE_EVENT_KIND_VLY = 10;
 }

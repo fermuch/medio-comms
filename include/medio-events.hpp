@@ -22,7 +22,9 @@
   /* Aplicador 2D */         \
   X(EV_2D)                   \
   /* Aplicador Pen */        \
-  X(EV_PEN)
+  X(EV_PEN)                  \
+  /* Specific for VLY */     \
+  X(EV_VLY)
 
 // Generate the enum class
 enum class PulseEventKind : uint32_t

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "medio-events.hpp"
-
 #include <string>
 #include <cstring>
+
+#include "medio-events.hpp"
 
 #include <pb_encode.h>
 #include "messages_medio.pb.h"
@@ -195,6 +195,8 @@ private:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_2D;
     case PulseEventKind::EV_PEN:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_PEN;
+    case PulseEventKind::EV_VLY:
+      return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_VLY;
     default:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_UNSPECIFIED;
     }

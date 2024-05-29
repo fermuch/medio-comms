@@ -18,8 +18,8 @@ TEST_F(MedIOMessageEncoderTest, SyncEventToProtobuf_PulseEvent)
 {
   // Create a PulseEvent
   PulseEvent pulseEvent;
+  pulseEvent.kind = PulseEventKind::EV_VLY;
   pulseEvent.duration = 100;
-  pulseEvent.kind = PulseEventKind::EV_HOME;
   pulseEvent.measurements = 42;
 
   // Wrap it in a SyncEvent
