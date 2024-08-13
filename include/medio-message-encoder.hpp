@@ -201,6 +201,8 @@ private:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_VLY;
     case PulseEventKind::EV_TGND:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_TGND;
+    case PulseEventKind::EV_UNKNOWN:
+      return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_UNSPECIFIED;
     default:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_UNSPECIFIED;
     }
