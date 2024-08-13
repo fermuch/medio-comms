@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <variant>
+#include <stdint.h>
 
 // #if __has_include("Arduino.h")
 // #include "Arduino.h"
@@ -24,7 +25,9 @@
   /* Aplicador Pen */        \
   X(EV_PEN)                  \
   /* Specific for VLY */     \
-  X(EV_VLY)
+  X(EV_VLY)                  \
+  /* Specific for TGND */    \
+  X(EV_TGND)
 
 // Generate the enum class
 enum class PulseEventKind : uint32_t

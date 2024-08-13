@@ -119,4 +119,7 @@ enum PulseEventKind {
 
   // Specific for VLY
   PULSE_EVENT_KIND_VLY = 10;
+
+  // Specific for TGND
+  PULSE_EVENT_KIND_TGND = 11;
 }

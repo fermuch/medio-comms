@@ -1,4 +1,6 @@
 #pragma once
+#pragma GCC diagnostic push
+#pragma GCC diagnostic error "-Wswitch-enum"
 
 #include <string>
 #include <cstring>
@@ -197,9 +199,12 @@ private:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_PEN;
     case PulseEventKind::EV_VLY:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_VLY;
+    case PulseEventKind::EV_TGND:
+      return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_TGND;
     default:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_UNSPECIFIED;
     }
   }
 };
 
+#pragma GCC diagnostic pop
