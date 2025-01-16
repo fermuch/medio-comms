@@ -27,7 +27,9 @@
   /* Specific for VLY */     \
   X(EV_VLY)                  \
   /* Specific for TGND */    \
-  X(EV_TGND)
+  X(EV_TGND)                 \
+  /* Specific for TVCC */    \
+  X(EV_TVCC)
 
 // Generate the enum class
 enum class PulseEventKind : uint32_t

@@ -122,4 +122,7 @@ enum PulseEventKind {
 
   // Specific for TGND
   PULSE_EVENT_KIND_TGND = 11;
+
+  // Specific for TVCC
+  PULSE_EVENT_KIND_TVCC = 12;
 }
