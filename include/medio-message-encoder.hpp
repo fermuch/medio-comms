@@ -77,35 +77,35 @@ public:
     message_.boot_id_3 = boot_id;
   }
 
-  static std::string SyncEventToProtobuf(uint32_t board_version, uint32_t boot_id, SyncEvent &event)
+  std::string SyncEventToProtobuf(SyncEvent &event)
   {
-    MedIOMessageEncoder msg(board_version, boot_id);
+    // MedIOMessageEncoder msg(board_version, boot_id);
 
     auto visitor = [&](auto &&arg)
     {
       using T = std::decay_t<decltype(arg)>;
       if constexpr (std::is_same_v<T, PulseEvent>)
       {
-        msg.SetPulseEvent(std::forward<decltype(arg)>(arg));
+        this->SetPulseEvent(std::forward<decltype(arg)>(arg));
       }
       else if constexpr (std::is_same_v<T, ModeChangeEvent>)
       {
-        msg.SetModeChangeEvent(std::forward<decltype(arg)>(arg));
+        this->SetModeChangeEvent(std::forward<decltype(arg)>(arg));
       }
       else if constexpr (std::is_same_v<T, WifiScanEvent>)
       {
-        msg.SetWifiScanEvent(std::forward<decltype(arg)>(arg));
+        this->SetWifiScanEvent(std::forward<decltype(arg)>(arg));
       }
       else if constexpr (std::is_same_v<T, PingEvent>)
       {
-        msg.SetPingEvent(std::forward<decltype(arg)>(arg));
+        this->SetPingEvent(std::forward<decltype(arg)>(arg));
       }
       else if constexpr (std::is_same_v<T, OnOffEvent>)
       {
-        msg.SetOnOffChangeEvent(std::forward<decltype(arg)>(arg));
+        this->SetOnOffChangeEvent(std::forward<decltype(arg)>(arg));
       }
 
-      return msg.ToString();
+      return this->ToString();
     };
 
     return std::visit(visitor, event.payload);

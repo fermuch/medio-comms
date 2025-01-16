@@ -27,7 +27,8 @@ TEST_F(MedIOMessageEncoderTest, SyncEventToProtobuf_PulseEvent)
   syncEvent.payload = pulseEvent;
 
   // Convert to Protobuf string
-  std::string protobufStr = MedIOMessageEncoder::SyncEventToProtobuf(42, 69, syncEvent);
+  auto encoder = MedIOMessageEncoder(42, 69);
+  std::string protobufStr = encoder.SyncEventToProtobuf(syncEvent);
 
   // TODO: use decoder to check if it is a valid message
   ASSERT_FALSE(protobufStr.empty());
@@ -44,7 +45,8 @@ TEST_F(MedIOMessageEncoderTest, SyncEventToProtobuf_ModeChangeEvent)
   syncEvent.payload = modeChangeEvent;
 
   // Convert to Protobuf string
-  std::string protobufStr = MedIOMessageEncoder::SyncEventToProtobuf(42, 69, syncEvent);
+  auto encoder = MedIOMessageEncoder(42, 69);
+  std::string protobufStr = encoder.SyncEventToProtobuf(syncEvent);
 
   // TODO: use decoder to check if it is a valid message
   ASSERT_FALSE(protobufStr.empty());
@@ -59,4 +61,35 @@ TEST_F(MedIOMessageEncoderTest, ToString)
 
   // TODO: use decoder to check if it is a valid message
   ASSERT_FALSE(str.empty());
+}
+
+bool encoder_tester_called = false;
+bool encoder_tester(pb_ostream_t *stream, const pb_field_t *field, void * const *arg) {
+  UNUSED(arg);
+  UNUSED(field);
+  UNUSED(stream);
+  encoder_tester_called = true;
+  return true;
+}
+
+TEST_F(MedIOMessageEncoderTest, SyncEventToProtobuf_CallsEncoders)
+{
+  // reset state
+  encoder_tester_called = false;
+
+  // Create a PulseEvent
+  PulseEvent pulseEvent;
+  pulseEvent.kind = PulseEventKind::EV_VLY;
+  pulseEvent.duration = 100;
+  pulseEvent.measurements = 42;
+
+  // Wrap it in a SyncEvent
+  SyncEvent syncEvent;
+  syncEvent.payload = pulseEvent;
+
+  // Convert to Protobuf string
+  auto encoder = MedIOMessageEncoder(42, 69, &encoder_tester);
+  std::string protobufStr = encoder.SyncEventToProtobuf(syncEvent);
+
+  ASSERT_TRUE(encoder_tester_called);
 }
