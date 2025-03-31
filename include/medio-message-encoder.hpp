@@ -203,6 +203,10 @@ private:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_TGND;
     case PulseEventKind::EV_TVCC:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_TVCC;
+    case PulseEventKind::EV_PEN_PONTUAL:
+      return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_PEN_PONTUAL;
+    case PulseEventKind::EV_PEN_ROUND:
+      return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_PEN_ROUND;
     case PulseEventKind::EV_UNKNOWN:
       return proto_v1_medio_PulseEventKind_PULSE_EVENT_KIND_UNSPECIFIED;
     default:

@@ -29,7 +29,11 @@
   /* Specific for TGND */    \
   X(EV_TGND)                 \
   /* Specific for TVCC */    \
-  X(EV_TVCC)
+  X(EV_TVCC)                 \
+  /* Specific for Pen Pontual */ \
+  X(EV_PEN_PONTUAL)          \
+  /* Specific for Pen Round */ \
+  X(EV_PEN_ROUND)
 
 // Generate the enum class
 enum class PulseEventKind : uint32_t

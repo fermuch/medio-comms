@@ -125,4 +125,8 @@ enum PulseEventKind {
 
   // Specific for TVCC
   PULSE_EVENT_KIND_TVCC = 12;
+
+  // New PEN modes
+  PULSE_EVENT_KIND_PEN_PONTUAL = 13;
+  PULSE_EVENT_KIND_PEN_ROUND = 14;
 }
